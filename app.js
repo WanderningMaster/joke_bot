@@ -28,7 +28,7 @@ async function getHtml(joke_url){
     return axios.get(joke_url).then(res => res.data);
 }
 
-/*bot.onText(/\/joke/, (msg) => {
+bot.onText(/\/joke/, (msg) => {
     const chatId = msg.chat.id;
     getHtml(joke_url)
         .then(html => {
@@ -45,10 +45,10 @@ async function getHtml(joke_url){
             bot.sendMessage(chatId, joke);
         })
         .catch(err => console.log(err));
-});*/
-bot.on("message", (msg) => {
-    bot.sendMessage(msg.chat.id, "Hello");
 });
+/*bot.on("message", (msg) => {
+    bot.sendMessage(msg.chat.id, "Hello");
+});*/
 
 
 
