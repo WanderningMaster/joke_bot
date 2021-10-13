@@ -8,8 +8,6 @@ const config = require("./config.json");
 const TOKEN = process.env.TOKEN || config.TOKEN;
 const joke_url = config.joke_url;
 
-const url = config.url; 
-
 const options = {
     webHook: {
       // Port to which you should bind is assigned to $PORT variable
@@ -19,9 +17,10 @@ const options = {
       // the SSL certs already (https://<app-name>.herokuapp.com)
       // Also no need to pass IP because on Heroku you need to bind to 0.0.0.0
     }
-  };
+};
 
-const bot = new api(TOKEN, {options});
+const url = process.env.APP_URL || config.url; 
+const bot = new api(TOKEN, options);
 //const bot = new api(TOKEN, {polling: true});
 bot.setWebHook(`${url}/bot${TOKEN}`);
 
