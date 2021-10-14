@@ -1,0 +1,4 @@
+config.json
+deploy.sh
+Procfile
+/node_modules
