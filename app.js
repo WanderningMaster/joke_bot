@@ -1,10 +1,11 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
 const api = require("node-telegram-bot-api");
+const schedule = require('node-schedule');
 
 const config = require("./config.json");
 
-
+/*bot config*/
 const TOKEN = process.env.TOKEN || config.TOKEN;
 const joke_url = config.joke_url;
 
@@ -19,6 +20,8 @@ const bot = new api(TOKEN, options);
 //const bot = new api(TOKEN, {polling: true});
 bot.setWebHook(`${url}/bot${TOKEN}`);
 
+
+/*parsing*/
 async function getHtml(joke_url){
     return axios.get(joke_url).then(res => res.data);
 }
@@ -34,6 +37,11 @@ function getJoke($){
 
     return joke;
 }
+let jokes = [];
+
+
+
+/*commands*/
 bot.onText(/\/joke/, (msg) => {
     const chatId = msg.chat.id;
     getHtml(joke_url)
@@ -42,6 +50,12 @@ bot.onText(/\/joke/, (msg) => {
             const joke = getJoke($);
              
             bot.sendMessage(chatId, joke);
+            jokes.push(joke);
         })
         .catch(err => console.log(err));
+});
+
+bot.onText(/\/all/, (msg) => {
+    const chatId = msg.chat.id;
+    jokes.forEach(joke => bot.sendMessage(chatId, joke));
 });
